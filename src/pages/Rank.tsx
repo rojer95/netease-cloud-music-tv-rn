@@ -47,8 +47,8 @@ const Rank = () => {
               style={{width: '100%'}}
               wrap="wrap"
               justify="space-between">
-              {list.map((i: any) => (
-                <RecommendItem width={w4} key={i.id} detail={i} />
+              {list.map((i: any, index) => (
+                <RecommendItem index={index} width={w4} key={i.id} detail={i} />
               ))}
             </Row>
           </Container>

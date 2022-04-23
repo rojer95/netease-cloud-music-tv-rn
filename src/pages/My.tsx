@@ -72,8 +72,8 @@ const My = () => {
               style={{width: '100%'}}
               wrap="wrap"
               justify="space-between">
-              {myList.map((i: any) => (
-                <RecommendItem key={i.id} detail={i} />
+              {myList.map((i: any, index) => (
+                <RecommendItem key={i.id} detail={i} index={index} />
               ))}
             </Row>
 

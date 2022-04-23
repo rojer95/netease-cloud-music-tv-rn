@@ -1,4 +1,4 @@
-declare var alert: (msg: string) => void;
+declare var alert: (msg: string, long?: any) => void;
 declare module 'react-native-video';
 declare module 'react-native-image-animation';
 declare module '@unsw-gsbme/react-native-keep-awake';

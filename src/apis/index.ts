@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const HOST = 'https://netease-cloud-music-api-rojer.vercel.app';
+const HOST = 'YOUR API HOST';
 
 const request = axios.create({
   baseURL: HOST,

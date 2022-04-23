@@ -69,7 +69,7 @@ export default observer(() => {
 
   useTVEventHandler(e => {
     if (e.eventType === 'menu') {
-      onRefresh();
+      onRefresh(true);
     }
   });
 
@@ -81,10 +81,10 @@ export default observer(() => {
     onRefresh();
   }, []);
 
-  const onRefresh = async () => {
+  const onRefresh = async (t = false) => {
     setRefreshing(true);
     try {
-      const res: any = await personalized({limit: 10});
+      const res: any = await personalized({limit: 10, t});
       setCruteria(res?.result);
       setRefreshing(false);
     } catch (error: any) {

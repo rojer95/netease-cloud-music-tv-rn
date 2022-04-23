@@ -139,8 +139,10 @@ const Home = observer(() => {
                 justifyContent: 'space-between',
               }}
               data={list}
-              renderItem={({item}: any) => {
-                return <RecommendItem key={item.id} detail={item} />;
+              renderItem={({item, index}: any) => {
+                return (
+                  <RecommendItem index={index} key={item.id} detail={item} />
+                );
               }}
               keyExtractor={(item: any) => `${item.id}`}
               ListHeaderComponent={

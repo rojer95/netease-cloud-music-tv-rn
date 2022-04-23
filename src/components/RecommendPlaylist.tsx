@@ -29,7 +29,8 @@ const Name = styled(LinearGradinet)`
 export const RecommendItem: React.FC<{
   detail: any;
   width?: number;
-}> = ({detail, width}) => {
+  index?: number;
+}> = ({detail, width, index}) => {
   const {w5, space} = useWidth();
 
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
@@ -41,6 +42,7 @@ export const RecommendItem: React.FC<{
         height: width || w5,
         marginBottom: space,
       }}
+      defaultFocus={index === 0}
       onPress={() => {
         if (!detail?.name) return;
         navigation.navigate({

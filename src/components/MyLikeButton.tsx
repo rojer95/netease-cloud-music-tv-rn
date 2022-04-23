@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {ImageBackground} from 'react-native';
+import {ImageBackground, ToastAndroid} from 'react-native';
 import {observer} from 'mobx-react';
 import LinearGradinet from 'react-native-linear-gradient';
 import Focusable from './Focusable';
@@ -13,9 +13,7 @@ const mylike_icon = require('../assets/mylike.png');
 const MyLikeButton = observer(() => {
   const {w4, space} = useWidth();
 
-  const {myLike} = useUser();
-
-  console.log('myLike', myLike);
+  const {myLike, logined} = useUser();
 
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
@@ -27,10 +25,14 @@ const MyLikeButton = observer(() => {
         marginRight: space,
       }}
       onPress={() => {
-        navigation.navigate({
-          name: 'List',
-          params: myLike,
-        });
+        if (logined) {
+          navigation.navigate({
+            name: 'List',
+            params: myLike,
+          });
+        } else {
+          global.alert('请先登录', ToastAndroid.SHORT);
+        }
       }}
       radius={10}
       ani>

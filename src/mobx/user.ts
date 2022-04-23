@@ -64,6 +64,9 @@ class UserStore {
     this.logined = false;
     this.account = null;
     this.profile = null;
+    this.likelist = [];
+    this.likePoster = undefined;
+    this.myLike = {};
   }
 }
 

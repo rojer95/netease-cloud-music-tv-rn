@@ -46,7 +46,9 @@ const PlayerPic = observer(() => {
 
   useEffect(() => {
     if (current) {
-      setUri(`${current?.album?.picUrl}?param=${w6}y${w6}`);
+      setUri(
+        `${current?.album?.picUrl ?? current?.al?.picUrl}?param=${w6}y${w6}`,
+      );
     }
   }, [current, w6]);
 

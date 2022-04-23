@@ -128,8 +128,11 @@ const Music = observer(() => {
     setLoop?.(next[loop ?? 'list']);
   };
 
+  const [poster, setPoster] = useState(null);
+
   useEffect(() => {
     setLiked(!!likelist?.includes(current?.id));
+    setPoster(current?.album?.picUrl ?? current?.al?.picUrl);
   }, [current, likelist]);
 
   return (
@@ -138,9 +141,9 @@ const Music = observer(() => {
         style={{
           position: 'relative',
         }}>
-        {current?.album?.picUrl ? (
+        {poster ? (
           <ImageBackground
-            source={{uri: `${current?.album?.picUrl}?param=${w5}y${w5}`}}
+            source={{uri: `${poster}?param=${w5}y${w5}`}}
             blurRadius={18}
             style={{
               height: '100%',
