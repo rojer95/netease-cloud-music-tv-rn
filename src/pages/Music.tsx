@@ -129,10 +129,18 @@ const Music = observer(() => {
   };
 
   const [poster, setPoster] = useState(null);
+  const [alName, setAlName] = useState('');
+  const [artName, setArtName] = useState('');
 
   useEffect(() => {
     setLiked(!!likelist?.includes(current?.id));
     setPoster(current?.album?.picUrl ?? current?.al?.picUrl);
+    setAlName(current?.album?.name ?? current?.al?.name);
+    setArtName(
+      (current?.artists ?? current?.ar ?? [])
+        ?.map((i: any) => i.name)
+        .join('/'),
+    );
   }, [current, likelist]);
 
   return (
@@ -186,11 +194,11 @@ const Music = observer(() => {
                   <Text
                     color="rgba(255,255,255, 0.4)"
                     style={{marginRight: 10}}>
-                    专辑：{current?.album?.name}
+                    专辑：{alName}
                   </Text>
 
                   <Text color="rgba(255,255,255, 0.4)" style={{marginLeft: 10}}>
-                    歌手：{current?.artists?.map((i: any) => i.name).join('/')}
+                    歌手：{artName}
                   </Text>
                 </Flex>
               </Flex>
