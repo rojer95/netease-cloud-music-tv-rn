@@ -1,4 +1,4 @@
-import {makeAutoObservable} from 'mobx';
+import {computed, makeAutoObservable} from 'mobx';
 import {
   login_status,
   logout as logout_api,
@@ -15,6 +15,7 @@ class UserStore {
   likelist: Array<any> = [];
   likePoster?: string = undefined;
   myLike: any = {};
+  mySubscribedId: number[] = [];
 
   constructor() {
     makeAutoObservable(this, {}, {autoBind: true});
@@ -56,6 +57,17 @@ class UserStore {
     if (this.logined) {
       const {playlist} = yield user_playlist({uid: this.account.id});
       this.myLike = playlist[0];
+      this.mySubscribedId = playlist
+        ?.filter((i: any) => i.subscribed === true)
+        ?.map((i: any) => Number(i.id));
+    }
+  }
+
+  notifyCollect(is: boolean, id: number) {
+    if (is) {
+      this.mySubscribedId = [id, ...this.mySubscribedId];
+    } else {
+      this.mySubscribedId = this.mySubscribedId.filter(i => i !== id);
     }
   }
 

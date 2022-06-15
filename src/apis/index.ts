@@ -14,12 +14,14 @@ const request = axios.create({
 request.interceptors.request.use(
   function (config: any) {
     if (!config.params) config.params = {};
-    if (config.params.t) {
+    if (config.params.t === true) {
       config.params.timerstamp =
         new Date().valueOf() + '_' + Math.floor(Math.random() * 1000000);
       delete config.params.t;
     }
     if (global.realIP) config.params.realIP = global.realIP;
+    console.log('real params', config.params);
+
     return config;
   },
   function (error) {
@@ -78,7 +80,7 @@ export const personal_fm = async () => {
 
 // 用户歌单列表
 export const user_playlist = async (params: any) => {
-  return await request('/user/playlist', {params});
+  return await request('/user/playlist', {params: {...params, t: true}});
 };
 
 // 推荐歌单
@@ -175,4 +177,8 @@ export const top_playlist = async (
       offset,
     },
   });
+};
+
+export const subscribe = async (t: '1' | '2', id: string) => {
+  return await request('/playlist/subscribe', {params: {t, id}});
 };

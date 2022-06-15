@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState, useMemo} from 'react';
 import {View, Alert, useTVEventHandler, ToastAndroid} from 'react-native';
 import {RecyclerListView, DataProvider} from 'recyclerlistview';
 import {GridLayoutProvider} from 'recyclerlistview-gridlayoutprovider';
@@ -14,10 +14,10 @@ import {
 
 const PAGESIZE = 50;
 
-import {Flex, Page, Focusable, Text, Musicing} from '../components';
-import {usePlayer} from '../hooks/useStores';
+import {Flex, Page, Focusable, Text, Musicing, Button} from '../components';
+import {usePlayer, useUser} from '../hooks/useStores';
 import {observer} from 'mobx-react';
-import {playlist_detail, song_detail} from '../apis';
+import {playlist_detail, song_detail, subscribe} from '../apis';
 
 const Container = styled.View`
   height: 100%;
@@ -133,6 +133,28 @@ const Item = observer(({item, onPress, width, index}: ItemProps) => {
   );
 });
 
+const CollectButton = observer(({id}: {id: string}) => {
+  const {mySubscribedId, notifyCollect} = useUser();
+  const isCollected = id ? mySubscribedId?.includes(Number(id)) : false;
+
+  const collect = async () => {
+    const isCollected = id ? mySubscribedId?.includes(Number(id)) : false;
+
+    const res = await subscribe(isCollected ? '2' : '1', id);
+    notifyCollect(!isCollected, Number(id));
+  };
+
+  return (
+    <Focusable shadow={false} onPress={collect} radius={30}>
+      <Button width={80} height={30} radius={30}>
+        <Text color="rgba(255,255,255,0.6)">
+          {isCollected ? '取消收藏' : '收藏'}
+        </Text>
+      </Button>
+    </Focusable>
+  );
+});
+
 const List = observer(() => {
   const {w2} = useWidth();
   const {playList} = usePlayer();
@@ -159,12 +181,17 @@ const List = observer(() => {
       setTitle();
       load();
     }
-  }, [params]);
+  }, [navigation, params]);
 
   const setTitle = () => {
-    navigation.setOptions({
-      title: params?.title,
-    });
+    if (params?.title) {
+      navigation.setOptions({
+        headerTitle: params?.title,
+        headerRight: () => {
+          return <CollectButton id={params?.id} />;
+        },
+      });
+    }
   };
 
   const lock = () => {

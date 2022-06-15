@@ -1,3 +1,4 @@
+import {useFocusEffect} from '@react-navigation/native';
 import React, {useState, useEffect} from 'react';
 import {View, ScrollView, RefreshControl} from 'react-native';
 import styled from 'styled-components/native';
@@ -35,9 +36,11 @@ const My = () => {
     setRefreshing(false);
   }, []);
 
-  useEffect(() => {
-    onRefresh();
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      onRefresh();
+    }, []),
+  );
 
   return (
     <Page pageId="My">

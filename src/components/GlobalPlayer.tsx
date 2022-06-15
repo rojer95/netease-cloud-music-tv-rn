@@ -46,6 +46,7 @@ export default observer(() => {
     setProgress({currentTime: 0, seekableDuration: 0});
     pause();
     await loadLrc(item);
+    console.log('url', auto_song_url(item.id));
     setUri(auto_song_url(item.id));
     play();
   };
